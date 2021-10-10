@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-6 mx-auto">
+                <div class="card">
+                    <h2 class="card-text text-center">Doctor Signup Form</h2>
+                    <p class="fw-bold text-muted text-center">Sign up to see details.</p>
+                    <div class="card-body">
+                        <form action="{% url 'doctorSignup' %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ forms|crispy }}
+                            <div class="d-grid mt-3">
+                                <input type="submit" class="btn btn-success">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer bg-white text-center">
+                        <p>Do you have an account? <a href="{% url 'login' %}" style="text-decoration: none; font-weight: bold;">LogIn</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
