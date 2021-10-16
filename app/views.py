@@ -2,7 +2,8 @@ from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.views import View
-from app.forms import AllSignupForm
+from app.forms import AllSignupForm, AddPostForm, AddCategoryForm
+from app.models import Post, Categories
 
 # Create your views here.
 class Home(View):
@@ -99,8 +100,116 @@ class Doctor_Dashboard(LoginRequiredMixin, View):
 class Patient_Dashboard(LoginRequiredMixin, View):
     def get(self, request):
         if request.user.is_active:
-            return render(request, 'patient_dashboard.html',{"title":"Patient Dashboard"})
+            context = {
+                "title": "Patient Dashboard",
+                "allCategories": Categories.objects.all(),
+                "allPosts": Post.objects.filter(draft="PUBLIC")
+            }
+            return render(request, 'patient_dashboard.html', context)
         else:
             logout(request)
             return redirect('login')
 
+
+class AllPost(LoginRequiredMixin, View):
+    def get(self, request):
+        if request.user.is_staff:
+            context = {
+                'allPost': Post.objects.filter(draft="PUBLIC", user=request.user),
+                "title": "All Blog Post"
+            }
+            return render(request, 'all_post.html', context)
+        else:
+            logout(request)
+            return redirect('login')
+
+
+class AddPost(LoginRequiredMixin, View):
+    def get(self, request):
+        if request.user.is_staff:
+            form = AddPostForm
+            return render(request, 'add_post.html', {"forms":form})
+        else:
+            logout(request)
+            return redirect('login')
+
+    def post(self, request):
+        if request.user.is_staff:
+            form = AddPostForm(request.POST or None, request.FILES or None)
+
+            if form.is_valid():
+                f = form.save(commit=False)
+                f.user = request.user
+                f.save()
+                return redirect('allblog')
+            else:
+                #msg
+                return redirect('addpost')
+        else:
+            logout(request)
+            return redirect('login')
+
+
+class AllCategory(LoginRequiredMixin, View):
+    def get(self, request):
+        if request.user.is_staff:
+            context = {
+                'allCategory': Categories.objects.all(),
+                "title": "All Blog Category"
+            }
+            return render(request, 'all_category.html', context)
+        else:
+            logout(request)
+            return redirect('login')
+
+
+class AddCategory(LoginRequiredMixin, View):
+    def get(self, request):
+        if request.user.is_staff:
+            form = AddCategoryForm
+            return render(request, 'add_category.html', {"forms":form})
+        else:
+            logout(request)
+            return redirect('login')
+
+    def post(self, request):
+        if request.user.is_staff:
+            form = AddCategoryForm(request.POST or None, request.FILES or None)
+
+            if form.is_valid():
+                f = form.save(commit=False)
+                f.user = request.user
+                f.save()
+                return redirect('allcategory')
+            else:
+                #msg
+                return redirect('addcategory')
+        else:
+            logout(request)
+            return redirect('login')
+
+
+class AllDraftPost(LoginRequiredMixin, View):
+    def get(self, request):
+        if request.user.is_staff:
+            context = {
+                'alldraftPost': Post.objects.filter(draft="DRAFT", user=request.user),
+                "title": "All Blog Draft Posts"
+            }
+            return render(request, 'draft.html', context)
+        else:
+            logout(request)
+            return redirect('login')
+
+
+class CategoryPostFilter(LoginRequiredMixin, View):
+    def get(self, request, id):
+        if request.user.is_active:
+            context = {
+                "allCategories": Categories.objects.all(),
+                'allPosts': Post.objects.filter(draft="PUBLIC", category_id=id),
+            }
+            return render(request, 'patient_dashboard.html', context)
+        else:
+            logout(request)
+            return redirect('login')

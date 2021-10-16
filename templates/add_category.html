@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="container">
+               <div class="row mt-3">
+                   <div class="col-3">
+                       <div class="list-group">
+                          <a href="{% url 'doctorDashboard' %}" class="list-group-item list-group-item-action active" aria-current="true">
+                            Dashboard
+                          </a>
+                          <a href="{% url 'allblog' %}" class="list-group-item list-group-item-action">All Posts</a>
+                          <a href="{% url 'addpost' %}" class="list-group-item list-group-item-action">Add Post</a>
+                          <a href="{% url 'allcategory' %}" class="list-group-item list-group-item-action">All Categories</a>
+                          <a href="{% url 'addcategory' %}" class="list-group-item list-group-item-action">Add Category</a>
+                          <a href="{% url 'draftpost' %}" class="list-group-item list-group-item-action">Draft Posts</a>
+                       </div>
+                   </div>
+                   <div class="col-9">
+                       <div class="card shadow mt-4">
+                    <h3 class="card-title text-center mt-4 text-primary">Add Blog Category Form</h3>
+                    <div class="card-body">
+                        <form action="{% url 'addcategory' %}" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{forms|crispy}}
+                            <div class="d-grid mt-4">
+                                <input type="submit" class="btn btn-primary">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                   </div>
+               </div>
+          </div>
+{% endblock %}

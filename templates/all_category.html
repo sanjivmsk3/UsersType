@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+     <div class="container">
+               <div class="row mt-3">
+                   <div class="col-3">
+                       <div class="list-group">
+                          <a href="{% url 'doctorDashboard' %}" class="list-group-item list-group-item-action active" aria-current="true">
+                            Dashboard
+                          </a>
+                          <a href="{% url 'allblog' %}" class="list-group-item list-group-item-action">All Posts</a>
+                          <a href="{% url 'addpost' %}" class="list-group-item list-group-item-action">Add Post</a>
+                          <a href="{% url 'allcategory' %}" class="list-group-item list-group-item-action">All Categories</a>
+                          <a href="{% url 'addcategory' %}" class="list-group-item list-group-item-action">Add Category</a>
+                          <a href="{% url 'draftpost' %}" class="list-group-item list-group-item-action">Draft Posts</a>
+                       </div>
+                   </div>
+                   <div class="col-9">
+                       <div class="card">
+                           <h2 class="card-title text-center">All Blog Categories</h2>
+                           <div class="card-body">
+                               <table class="table">
+                                   <tr>
+                                       <th>ID</th>
+                                       <th>Title</th>
+                                   </tr>
+                                   {% for foo in allCategory %}
+                                        <tr>
+                                        <td>{{ foo.id }}</td>
+                                        <td>{{ foo.title }}</td>
+                                        </tr>
+                                   {% endfor %}
+
+                               </table>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+    </div>
+{% endblock %}

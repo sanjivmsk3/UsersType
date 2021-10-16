@@ -2,8 +2,20 @@
 {% load crispy_forms_field %}
 {% block content %}
     <div class="container">
-               <div class="row">
-                   <div class="col-5 mx-auto">
+               <div class="row mt-3">
+                   <div class="col-3">
+                       <div class="list-group">
+                          <a href="{% url 'doctorDashboard' %}" class="list-group-item list-group-item-action active" aria-current="true">
+                            Dashboard
+                          </a>
+                          <a href="{% url 'allblog' %}" class="list-group-item list-group-item-action">All Posts</a>
+                          <a href="{% url 'addpost' %}" class="list-group-item list-group-item-action">Add Post</a>
+                          <a href="{% url 'allcategory' %}" class="list-group-item list-group-item-action">All Categories</a>
+                          <a href="{% url 'addcategory' %}" class="list-group-item list-group-item-action">Add Category</a>
+                          <a href="{% url 'draftpost' %}" class="list-group-item list-group-item-action">Draft Posts</a>
+                       </div>
+                   </div>
+                   <div class="col-9">
                        <div class="card">
                            <h2 class="card-text mx-auto text-primary mt-3">Doctor Details</h2>
                            {% if user.profile_picture %}
