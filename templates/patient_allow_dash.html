@@ -5,20 +5,17 @@
                <div class="row mt-3">
                    <div class="col-3">
                        <div class="list-group">
-                          <a href="{% url 'doctorDashboard' %}" class="list-group-item list-group-item-action active" aria-current="true">
+                          <a href="{% url 'patientDsh' %}" class="list-group-item text-center list-group-item-action active" aria-current="true">
                             Dashboard
                           </a>
-                          <a href="{% url 'allblog' %}" class="list-group-item list-group-item-action">All Posts</a>
-                          <a href="{% url 'addpost' %}" class="list-group-item list-group-item-action">Add Post</a>
-                          <a href="{% url 'allcategory' %}" class="list-group-item list-group-item-action">All Categories</a>
-                          <a href="{% url 'addcategory' %}" class="list-group-item list-group-item-action">Add Category</a>
-                          <a href="{% url 'draftpost' %}" class="list-group-item list-group-item-action">Draft Posts</a>
-                          <a href="{% url 'patientlist' %}" class="list-group-item list-group-item-action">All Patients</a>
+                          <a href="{% url 'patientallpost' %}" class="list-group-item list-group-item-action">All Posts</a>
+                          <a href="{% url 'patientaddpost' %}" class="list-group-item list-group-item-action">Add Post</a>
+                          <a href="{% url 'patientalldraftpost' %}" class="list-group-item list-group-item-action">Draft Posts</a>
                        </div>
                    </div>
                    <div class="col-9">
                        <div class="card">
-                           <h2 class="card-text mx-auto text-primary mt-3">Doctor Details</h2>
+                           <h2 class="card-text mx-auto text-primary mt-3">Patient Details</h2>
                            {% if user.profile_picture %}
                                <img src="{{ user.profile_picture.url }}" class="rounded-circle mx-auto" width="200" height="200" alt="...">
                            {% else %}

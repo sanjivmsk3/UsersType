@@ -27,7 +27,7 @@
                                        <th>Category</th>
                                        <th>Summary</th>
                                        <th>Content</th>
-                                       <th>Draft</th>
+                                       <th>Username</th>
                                    </tr>
                                    {% for foo in allPost %}
                                         <tr>
@@ -37,7 +37,7 @@
                                         <td>{{ foo.category.title }}</td>
                                         <td>{{ foo.summary|truncatechars:15 }}</td>
                                         <td>{{ foo.content|truncatechars:15 }}</td>
-                                        <td>{{ foo.get_draft_display }}</td>
+                                        <td>{{ foo.user.username }}</td>
                                         </tr>
                                    {% endfor %}
 

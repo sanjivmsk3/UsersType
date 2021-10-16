@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.views import View
 from app.forms import AllSignupForm, AddPostForm, AddCategoryForm
-from app.models import Post, Categories
+from app.models import Post, Categories, User
 
 # Create your views here.
 class Home(View):
@@ -115,7 +115,7 @@ class AllPost(LoginRequiredMixin, View):
     def get(self, request):
         if request.user.is_staff:
             context = {
-                'allPost': Post.objects.filter(draft="PUBLIC", user=request.user),
+                'allPost': Post.objects.filter(draft="PUBLIC"),
                 "title": "All Blog Post"
             }
             return render(request, 'all_post.html', context)
@@ -193,7 +193,7 @@ class AllDraftPost(LoginRequiredMixin, View):
     def get(self, request):
         if request.user.is_staff:
             context = {
-                'alldraftPost': Post.objects.filter(draft="DRAFT", user=request.user),
+                'alldraftPost': Post.objects.filter(draft="DRAFT"),
                 "title": "All Blog Draft Posts"
             }
             return render(request, 'draft.html', context)
@@ -210,6 +210,96 @@ class CategoryPostFilter(LoginRequiredMixin, View):
                 'allPosts': Post.objects.filter(draft="PUBLIC", category_id=id),
             }
             return render(request, 'patient_dashboard.html', context)
+        else:
+            logout(request)
+            return redirect('login')
+
+
+class Patient_lists(LoginRequiredMixin, View):
+    def get(self, request):
+        if request.user.is_staff:
+            context = {
+                "title": "Patient Lists",
+                "patientList": User.objects.filter(is_staff=False)
+            }
+            return render(request, 'all_patient_lists.html', context)
+        else:
+            logout(request)
+            return redirect('login')
+
+
+class Allow_Post(LoginRequiredMixin, View):
+    def get(self, request, id):
+        if request.user.is_staff:
+            patient = User.objects.get(id=id)
+            if patient.allow:
+                patient.allow = False
+                patient.save()
+            else:
+                patient.allow = True
+                patient.save()
+            return redirect('patientlist')
+        else:
+            logout(request)
+            return redirect('login')
+
+
+class PatientDash(LoginRequiredMixin, View):
+    def get(self, request):
+        if request.user.allow:
+            return render(request, 'patient_allow_dash.html', {"title":"Patient-Dashboard"})
+        else:
+            logout(request)
+            return redirect('login')
+
+
+class PatientAddPost(LoginRequiredMixin, View):
+    def get(self, request):
+        if request.user.allow:
+            form = AddPostForm
+            return render(request, 'patient_add_post.html', {"forms":form})
+        else:
+            logout(request)
+            return redirect('login')
+
+    def post(self, request):
+        if request.user.allow:
+            form = AddPostForm(request.POST or None, request.FILES or None)
+
+            if form.is_valid():
+                f = form.save(commit=False)
+                f.user = request.user
+                f.save()
+                return redirect('patientDashboard')
+            else:
+                #msg
+                return redirect('patientaddpost')
+        else:
+            logout(request)
+            return redirect('login')
+
+
+
+class PatientAllPost(LoginRequiredMixin, View):
+    def get(self, request):
+        if request.user.allow:
+            context = {
+                'patientAllPost': Post.objects.filter(draft="PUBLIC", user__allow=True, user=request.user),
+                "title": "All Blog Post"
+            }
+            return render(request, 'patient_all_post.html', context)
+        else:
+            logout(request)
+            return redirect('login')
+
+class PatientAllDraftPost(LoginRequiredMixin, View):
+    def get(self, request):
+        if request.user.allow:
+            context = {
+                'patientAllDraftPost': Post.objects.filter(draft="DRAFT", user__allow=True, user=request.user),
+                "title": "All Blog Post"
+            }
+            return render(request, 'patient_draft_post.html', context)
         else:
             logout(request)
             return redirect('login')

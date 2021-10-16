@@ -17,8 +17,13 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
           {% if request.user.is_authenticated %}
+              {% if request.user.allow %}
+                  <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'patientDsh' %}">Dashboard</a>
+                  </li>
+              {% endif %}
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                <a class="nav-link text-danger" href="{% url 'logout' %}">Logout</a>
               </li>
           {% else %}
                 <li class="nav-item">

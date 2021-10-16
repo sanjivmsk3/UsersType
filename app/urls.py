@@ -16,6 +16,12 @@ urlpatterns = [
     path('all-blog-category', AllCategory.as_view(), name='allcategory'),
     path('add-blog-category', AddCategory.as_view(), name='addcategory'),
     path('all-blog-draft-post', AllDraftPost.as_view(), name='draftpost'),
-    path('all-blog-posts/<int:id>/', CategoryPostFilter.as_view(), name='catfilter')
+    path('all-blog-posts/<int:id>/', CategoryPostFilter.as_view(), name='catfilter'),
+    path('patient-lists', Patient_lists.as_view(), name='patientlist'),
+    path('allow-patient/<int:id>', Allow_Post.as_view(), name='allowpatient'),
+    path('patient-dash', PatientDash.as_view(), name='patientDsh'),
+    path('patient-add-post', PatientAddPost.as_view(), name='patientaddpost'),
+    path('patient-all-post', PatientAllPost.as_view(), name='patientallpost'),
+    path('patient-all-draft-post', PatientAllDraftPost.as_view(), name='patientalldraftpost'),
 
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

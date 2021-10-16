@@ -13,31 +13,42 @@
                           <a href="{% url 'allcategory' %}" class="list-group-item list-group-item-action">All Categories</a>
                           <a href="{% url 'addcategory' %}" class="list-group-item list-group-item-action">Add Category</a>
                           <a href="{% url 'draftpost' %}" class="list-group-item list-group-item-action">Draft Posts</a>
+                          <a href="{% url 'patientlist' %}" class="list-group-item list-group-item-action">All Patients</a>
                        </div>
                    </div>
                    <div class="col-9">
                        <div class="card">
-                           <h2 class="card-title text-center">All Blog Draft Posts</h2>
+                           <h2 class="card-title text-center">All Patient List</h2>
                            <div class="card-body">
                                <table class="table">
                                    <tr>
                                        <th>ID</th>
                                        <th>Image</th>
-                                       <th>Title</th>
-                                       <th>Category</th>
-                                       <th>Summary</th>
-                                       <th>Content</th>
                                        <th>Username</th>
+                                       <th>Full Name</th>
+                                       <th>Email</th>
+                                       <th>Allow to add blog post</th>
                                    </tr>
-                                   {% for foo in alldraftPost %}
+                                   {% for foo in patientList %}
                                         <tr>
                                         <td>{{ foo.id }}</td>
-                                        <td><img src="{{ foo.image.url }}" width="80" height="60" alt=""></td>
-                                        <td>{{ foo.title }}</td>
-                                        <td>{{ foo.category.title }}</td>
-                                        <td>{{ foo.summary|truncatechars:15 }}</td>
-                                        <td>{{ foo.content|truncatechars:15 }}</td>
-                                        <td>{{ foo.user.username }}</td>
+                                        <td>
+                                            {% if foo.profile_picture %}
+                                                <img src="{{ foo.profile_picture.url }}" width="80" height="60" alt="">
+                                            {% else %}
+                                                <img src="https://st2.depositphotos.com/1104517/11965/v/600/depositphotos_119659092-stock-illustration-male-avatar-profile-picture-vector.jpg" class="rounded-circle mx-auto" width="80" height="60" alt="...">
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ foo.username }}</td>
+                                        <td>{{ foo.first_name }} {{ foo.last_name }}</td>
+                                        <td>{{ foo.email }}</td>
+                                        <td>
+                                            {% if foo.allow %}
+                                                <a href="{% url 'allowpatient' foo.id %}" class="btn btn-danger btn-sm">Remove</a>
+                                            {% else %}
+                                                <a href="{% url 'allowpatient' foo.id %}" class="btn btn-success btn-sm">Allow</a>
+                                            {% endif %}
+                                        </td>
                                         </tr>
                                    {% endfor %}
 

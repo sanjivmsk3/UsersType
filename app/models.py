@@ -8,6 +8,7 @@ class User(AbstractUser):
     city = models.CharField(max_length=200, null=True,blank=True)
     state = models.CharField(max_length=200, null=True,blank=True)
     pincode = models.IntegerField(null=True,blank=True)
+    allow = models.BooleanField(default=False)
 
 
 class Categories(models.Model):

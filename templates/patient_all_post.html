@@ -1,23 +1,21 @@
 {% extends 'base.html' %}
-
+{% load crispy_forms_field %}
 {% block content %}
-     <div class="container">
+    <div class="container">
                <div class="row mt-3">
                    <div class="col-3">
                        <div class="list-group">
-                          <a href="{% url 'doctorDashboard' %}" class="list-group-item list-group-item-action active" aria-current="true">
+                          <a href="{% url 'patientDsh' %}" class="list-group-item text-center list-group-item-action active" aria-current="true">
                             Dashboard
                           </a>
-                          <a href="{% url 'allblog' %}" class="list-group-item list-group-item-action">All Posts</a>
-                          <a href="{% url 'addpost' %}" class="list-group-item list-group-item-action">Add Post</a>
-                          <a href="{% url 'allcategory' %}" class="list-group-item list-group-item-action">All Categories</a>
-                          <a href="{% url 'addcategory' %}" class="list-group-item list-group-item-action">Add Category</a>
-                          <a href="{% url 'draftpost' %}" class="list-group-item list-group-item-action">Draft Posts</a>
+                          <a href="{% url 'patientallpost' %}" class="list-group-item list-group-item-action">All Posts</a>
+                          <a href="{% url 'patientaddpost' %}" class="list-group-item list-group-item-action">Add Post</a>
+                          <a href="{% url 'patientalldraftpost' %}" class="list-group-item list-group-item-action">Draft Posts</a>
                        </div>
                    </div>
                    <div class="col-9">
-                       <div class="card">
-                           <h2 class="card-title text-center">All Blog Draft Posts</h2>
+                    <div class="card">
+                           <h2 class="card-title text-center">All Blog Post</h2>
                            <div class="card-body">
                                <table class="table">
                                    <tr>
@@ -27,9 +25,9 @@
                                        <th>Category</th>
                                        <th>Summary</th>
                                        <th>Content</th>
-                                       <th>Username</th>
+                                       <th>Draft</th>
                                    </tr>
-                                   {% for foo in alldraftPost %}
+                                   {% for foo in patientAllPost %}
                                         <tr>
                                         <td>{{ foo.id }}</td>
                                         <td><img src="{{ foo.image.url }}" width="80" height="60" alt=""></td>
@@ -37,7 +35,7 @@
                                         <td>{{ foo.category.title }}</td>
                                         <td>{{ foo.summary|truncatechars:15 }}</td>
                                         <td>{{ foo.content|truncatechars:15 }}</td>
-                                        <td>{{ foo.user.username }}</td>
+                                        <td>{{ foo.get_draft_display }}</td>
                                         </tr>
                                    {% endfor %}
 
@@ -46,5 +44,5 @@
                        </div>
                    </div>
                </div>
-    </div>
+          </div>
 {% endblock %}
