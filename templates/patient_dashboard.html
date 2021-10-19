@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% load crispy_forms_field %}
 {% block content %}
-    <div class="container">
+    <div class="container-fluid">
                <div class="row mt-3">
-                   <div class="col-3">
+                   <div class="col-2">
                        <div class="list-group">
                           <a href="{% url 'patientDashboard' %}" class="list-group-item text-center list-group-item-action active" aria-current="true">
                             All Categories
@@ -13,22 +13,69 @@
                           {% endfor %}
                        </div>
                    </div>
-                   <div class="col-9">
-                         {% for foo in allPosts %}
-                             <div class="card mb-3" style="max-width: 950px;">
-                                  <div class="row g-0">
-                                    <div class="col-md-4">
-                                      <img src="{{ foo.image.url }}" class="img-fluid rounded-start" alt="...">
-                                    </div>
-                                    <div class="col-md-8">
-                                      <div class="card-body">
-                                        <h5 class="card-title">{{ foo.title }}</h5>
-                                        <p class="card-text">{{ foo.summary|truncatechars:15 }}</p>
-                                      </div>
-                                    </div>
-                                  </div>
-                             </div>
-                         {% endfor %}
+                   <div class="col-6">
+{#                         {% for foo in allPosts %}#}
+{#                             <div class="card mb-3" style="max-width: 950px;">#}
+{#                                  <div class="row g-0">#}
+{#                                    <div class="col-md-4">#}
+{#                                      <img src="{{ foo.image.url }}" class="img-fluid rounded-start" alt="...">#}
+{#                                    </div>#}
+{#                                    <div class="col-md-8">#}
+{#                                      <div class="card-body">#}
+{#                                        <h5 class="card-title">{{ foo.title }}</h5>#}
+{#                                        <p class="card-text">{{ foo.summary|truncatechars:15 }}</p>#}
+{#                                      </div>#}
+{#                                    </div>#}
+{#                                  </div>#}
+{#                             </div>#}
+{#                         {% endfor %}#}
+
+                       <div class="card">
+                           <h2 class="card-title text-center">Appointment Details</h2>
+                           <div class="card-body">
+                               <table class="table">
+                                   <tr>
+                                       <th>ID</th>
+                                       <th>Doctor Name</th>
+                                       <th>Speciality</th>
+                                       <th>Appointment Date</th>
+                                       <th>Appointment Time</th>
+                                       <th>Appointment Status</th>
+                                   </tr>
+                                   {% for fa in apooint %}
+                                       <tr>
+                                       <td>{{ fa.id }}</td>
+                                       <td>{{ fa.doctor.username }}</td>
+                                       <td>{{ fa.get_speciality_display }}</td>
+                                       <td>{{ fa.date }}</td>
+                                       <td>{{ fa.time }}</td>
+                                       <td><span class="text-success fw-bold">Confirmed</span></td>
+                                       </tr>
+                                   {% endfor %}
+
+                               </table>
+                           </div>
+                       </div>
+                   </div>
+                   <div class="col-4">
+                       <div class="card">
+                           <h2 class="text-center card-text">List of all the Doctors</h2>
+                           <hr>
+                           {% for d in allDoctors %}
+                                <div class="card mx-auto mb-2" style="width: 450px;">
+                               <div class="card-body">
+                                   {% if d.profile_picture %}
+                                       <img src="{{ d.profile_picture.url }}" width="80" height="80" class="rounded-circle" alt="">
+                                   {% else %}
+                                       <img src="" width="80" height="80" class="rounded-circle" alt="">
+                                   {% endif %}
+                                   <span class="ml-3 text-capitalize fw-bold">{{ d.first_name }} {{ d.last_name }}</span>
+                                   <a href="{% url 'appointmentform' d.id %}" class="btn btn-success float-end m-3">Book Appointment</a>
+                               </div>
+                           </div>
+                           {% endfor %}
+
+                       </div>
                    </div>
                </div>
           </div>

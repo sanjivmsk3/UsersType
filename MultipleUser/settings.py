@@ -91,7 +91,7 @@ WSGI_APPLICATION = 'MultipleUser.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'multiuser',
+        'NAME': 'multiusers',
         'USER': 'users',
         'PASSWORD': '@1234567',
         'HOST': 'localhost',

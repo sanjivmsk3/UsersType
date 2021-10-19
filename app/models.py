@@ -27,3 +27,21 @@ class Post(models.Model):
     content = models.TextField()
     CHOICE =(("DRAFT","ADD-TO-DRAFT"), ("PUBLIC","ADD-TO-PUBLIC"))
     draft = models.CharField(max_length=30,choices=CHOICE)
+
+
+class TimeSchedule(models.Model):
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+
+    def __str__(self):
+        return str(self.start_time) + "-" + str(self.end_time)
+
+
+class BookAppointment(models.Model):
+    doctor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='doctor')
+    patient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='patient')
+    CHOICE =(("Bariatrics","Bariatrics"), ("Cardiology","Cardiology"), ("Dermatology","Dermatology"), ("General surgery","General surgery"))
+    speciality = models.CharField(max_length=30,choices=CHOICE)
+    time = models.ForeignKey(TimeSchedule, on_delete=models.CASCADE)
+    date = models.DateField()
+    status = models.BooleanField(default=False)

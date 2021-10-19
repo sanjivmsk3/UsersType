@@ -23,5 +23,7 @@ urlpatterns = [
     path('patient-add-post', PatientAddPost.as_view(), name='patientaddpost'),
     path('patient-all-post', PatientAllPost.as_view(), name='patientallpost'),
     path('patient-all-draft-post', PatientAllDraftPost.as_view(), name='patientalldraftpost'),
+    path('appointment-form/<int:id>', AppointmnetForm.as_view(), name='appointmentform'),
+    path('appointment-confirm/<int:id>', AppointmentAprove.as_view(), name='appointmentconfirm')
 
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

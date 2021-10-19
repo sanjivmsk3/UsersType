@@ -1,6 +1,8 @@
 from django.contrib.auth.forms import UserCreationForm
-from app.models import User, Post, Categories
+from app.models import User, Post, Categories, BookAppointment
 from django import forms
+from django.contrib.admin.widgets import AdminDateWidget
+
 
 class AllSignupForm(UserCreationForm):
     class Meta:
@@ -18,3 +20,11 @@ class AddCategoryForm(forms.ModelForm):
     class Meta:
         model = Categories
         fields = '__all__'
+
+
+
+class BookAppointmentForm(forms.ModelForm):
+    class Meta:
+        model = BookAppointment
+        fields = ('speciality','time',)
+
